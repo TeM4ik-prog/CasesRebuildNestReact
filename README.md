@@ -1,1 +1,1 @@
-# NestReactAppPattern
+# Патерн приложения на Nest.js и React c авторизацией пользователя
