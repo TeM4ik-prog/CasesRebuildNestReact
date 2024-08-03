@@ -1,0 +1,61 @@
+@import './assets/variables.scss';
+
+@font-face {
+  font-family: 'Inconsolata';
+  src: url('./assets/fonts/Inconsolata-VariableFont_wdth\,wght.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+#root {
+  font-family: Inconsolata;
+  font-weight: 700;
+  background-color: $light-color;
+  color: $dark-color;
+  box-sizing: border-box;
+  display: inline-flex;
+  flex-direction: column;
+  position: relative;
+  width: 100%;
+  height: max-content;
+  min-height: 100%;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-y: auto;
+
+  * {
+    font-family: Inconsolata;
+    margin: 0;
+  }
+}
+
+
+.body-container {
+  height: 100%;
+  flex: 1;
+  display: inline-flex;
+  flex-direction: column;
+  padding: calc(0.5rem + 0.75vw);
+  box-sizing: border-box;
+
+  & * {
+    margin: 0;
+  }
+}
+
+#root::-webkit-scrollbar {
+  background: $dark-color;
+  width: 7px;
+  height: 5px;
+  z-index: 100;
+}
+
+
+#root::-webkit-scrollbar-thumb {
+  background: #838383;
+  border-radius: 10px;
+  position: absolute;
+
+}

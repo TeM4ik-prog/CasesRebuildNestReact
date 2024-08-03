@@ -1,0 +1,36 @@
+@import '../../../assets/variables.scss';
+
+.footer-container {
+    transform: translateY(100%);
+    margin-top: auto;
+    width: 100%;
+    display: inline-flex;
+    background-color: $blue-background-color;
+    padding: calc(0.5rem + 0.75vw) calc(0.5rem + 1.25vw);
+    box-sizing: border-box;
+    flex-direction: row;
+    justify-content: space-between;
+    color: $light-color;
+
+    font-size: calc(0.5rem + 1.25vw);
+
+
+    .nav-container {
+        p {
+            margin: auto;
+        }
+    }
+
+    .footer-links-container {
+        display: inline-flex;
+        width:fit-content;
+        gap: 1.5vw;
+
+        img {
+            width: calc(2em + 0.2vw);
+            margin: auto;
+            // width: auto;
+
+        }
+    }
+}

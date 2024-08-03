@@ -1,0 +1,34 @@
+@import '../../assets/variables.scss';
+
+
+input {
+    border: none;
+    background-color: transparent;
+    appearance: none;
+    font-size: calc(1em + 1vw);
+    padding: 0.5rem 0;
+
+    outline: none;
+    border-bottom: 1px solid #9CA5A1;
+}
+
+
+.filters-container {
+    align-items: baseline;
+    margin: calc(1rem + 1vw) 0 !important;
+    display: inline-flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    button{
+        color: $light-color;
+        padding: 0.5rem 0.75rem;
+        align-items: center;
+        border: none;
+        display: inline-flex;
+        flex-direction: row;
+        gap: 0.5rem;
+        background-color: $blue-background-color;
+
+    }
+}
