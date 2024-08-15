@@ -8,27 +8,27 @@ datasource db {
 }
 
 model Users {
-  id       Int    @id @default(autoincrement())
-  name     String
-  email    String @unique
-  password String
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  // products Products[] @relation("EmployeeProducts")
+  id         Int     @id @default(autoincrement())
+  telegramId String
+  username   String?
+  money      Int     @default(50)
+  avatar     String?
 }
 
-model Products {
-  id          Int    @id @default(autoincrement())
-  name        String
-  description String
-  price       Float
-  image       String
+model CategoryRare {
+  id   Int    @id @default(autoincrement())
+  name String
+}
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model Loot {
+  id  Int    @id @default(autoincrement())
+  img String
+}
 
-  employeeId Int
-  // employee   Employee @relation("EmployeeProducts", fields: [employeeId], references: [id])
+model InventoryLoot {
+  id     Int    @id @default(autoincrement())
+  userId Int
+  img    String
+  quantity Int @default(1)
+  openPrice Int
 }
