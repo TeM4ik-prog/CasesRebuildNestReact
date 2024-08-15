@@ -10,18 +10,22 @@ datasource db {
 model User {
   id         Int     @id @default(autoincrement())
   telegramId String  @unique
+  password   String
   username   String?
   money      Int     @default(50)
 }
 
 model CategoryRare {
   id   Int    @id @default(autoincrement())
-  name String
+  name String @unique
+  Loot Loot[]
 }
 
 model Loot {
-  id  Int    @id @default(autoincrement())
-  img String
+  id             Int          @id @default(autoincrement())
+  img            String       @unique
+  categoryRare   CategoryRare @relation(fields: [categoryRareId], references: [id])
+  categoryRareId Int
 }
 
 model InventoryLoot {

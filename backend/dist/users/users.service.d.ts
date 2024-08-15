@@ -9,23 +9,23 @@ export declare class UsersService {
         user: {
             id: number;
             telegramId: string;
+            password: string;
             username: string | null;
             money: number;
-            avatar: string | null;
         };
     }>;
     findOne(telegramId: string): Promise<{
         id: number;
         telegramId: string;
+        password: string;
         username: string | null;
         money: number;
-        avatar: string | null;
     }>;
     findAll(): Promise<{
         id: number;
         telegramId: string;
+        password: string;
         username: string | null;
         money: number;
-        avatar: string | null;
     }[]>;
 }

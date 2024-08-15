@@ -9,6 +9,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config'
 // import { JwtStrategy } from './strategies/jwt.strategy';
 import { UsersModule } from 'src/users/users.module';
 import { DatabaseModule } from 'src/database/database.module';
+import { LocalStrategy } from './strategies/local.strategy';
+import { JwtStrategy } from './strategies/jwt.strategy';
 
 @Module({
   imports: [
@@ -22,13 +24,13 @@ import { DatabaseModule } from 'src/database/database.module';
       useFactory: async (configService: ConfigService) => ({
 
         secret: configService.get('JWT_SECRET'),
-        signOptions: { expiresIn: '1min' },
+        signOptions: { expiresIn: '1d' },
       }),
       inject: [ConfigService],
     })
 
   ], 
   controllers: [AuthController],
-  providers: [AuthService],
+  providers: [AuthService, LocalStrategy, JwtStrategy],
 })
 export class AuthModule { }

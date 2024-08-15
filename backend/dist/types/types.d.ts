@@ -1,4 +1,6 @@
 export interface IUser {
     id: string;
-    email: string;
+    telegramId: string;
+    money: number;
+    username: string;
 }

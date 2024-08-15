@@ -9,6 +9,8 @@ async function bootstrap() {
   app.setGlobalPrefix('api');
 
   app.use('/uploads', express.static(join(__dirname, '..', 'uploads')));
+  app.use('/public', express.static(join(__dirname, '..', 'public')));
+  
   app.use(express.static(join(__dirname, '../..', 'client', 'dist')));
 
   app.use((req, res, next) => {

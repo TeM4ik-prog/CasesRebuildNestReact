@@ -1,13 +1,13 @@
 @font-face {
   font-family: '04B_30';
-  src: url('../public/fonts/04B_30__.TTF') format('truetype');
+  src: url('./assets/fonts/04B_30__.ttf') format('truetype');
   font-weight: 700;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'lilitaonerus';
-  src: url('../public/fonts/lilitaonerus.ttf') format('truetype');
+  src: url('./assets/fonts/lilitaonerus.ttf') format('truetype');
   font-weight: 700;
   font-style: normal;
 }
@@ -114,9 +114,8 @@ select {
 
 
 button {
-  font-family: '04B_30', 'lilitaonerus';
-  font-size: calc(0.5em + 0.5vw);
-  line-height: 160%;
+  font-family: 'lilitaonerus';
+  font-size: calc(1em + 0.5vw);
   border-radius: 8px;
   // width: min-content;
   font-weight: 700;
@@ -125,7 +124,7 @@ button {
   background-color: #2663f0;
   border: none;
   cursor: pointer;
-  padding: 0.35rem 1.5rem 0.35rem 1.5rem;
+  padding: 0.65rem 1.5rem 0.65rem 1.5rem;
   justify-content: end;
   box-sizing: border-box;
   margin-top: auto;

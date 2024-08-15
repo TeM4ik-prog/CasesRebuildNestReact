@@ -13,6 +13,7 @@ exports.UsersService = void 0;
 const common_1 = require("@nestjs/common");
 const database_service_1 = require("../database/database.service");
 const jwt_1 = require("@nestjs/jwt");
+const argon2 = require("argon2");
 let UsersService = class UsersService {
     constructor(databaseService, jwtService) {
         this.databaseService = databaseService;
@@ -23,12 +24,14 @@ let UsersService = class UsersService {
             where: { telegramId: usersCreateDto.telegramId },
         });
         if (existingUser)
-            throw new common_1.BadRequestException(`Employee ${usersCreateDto.username} already exists`);
+            throw new common_1.BadRequestException(`User ${usersCreateDto.username} already exists`);
         const user = await this.databaseService.user.create({
             data: {
                 ...usersCreateDto,
+                password: await argon2.hash(usersCreateDto.password)
             }
         });
+        let token = this.jwtService.sign({ id: user.id, telegramId: user.telegramId });
         return { user };
     }
     async findOne(telegramId) {
@@ -36,7 +39,7 @@ let UsersService = class UsersService {
             where: { telegramId },
         });
         if (!user)
-            throw new common_1.NotFoundException(`User with email ${telegramId} not found`);
+            throw new common_1.NotFoundException(`User with telegramId ${telegramId} not found`);
         return user;
     }
     async findAll() {

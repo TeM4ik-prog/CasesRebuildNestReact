@@ -1,0 +1,41 @@
+.container-page {
+
+    align-items: center;
+
+    .toggle-butts-stat {
+        display: flex;
+        // flex-direction: row;
+        justify-content: space-around;
+        margin: 1rem 0 1rem 0;
+        // flex-wrap: nowrap;
+        // width: max-content;
+
+        button {
+            flex: 1;
+            box-sizing: border-box;
+            filter: brightness(50%);
+        }
+
+        a.active button {
+            filter: brightness(100%);
+        }
+
+        .global {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+        .user {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+    }
+}
+
+
+@media (min-width: 620px) {
+    .stat-page-container {
+        height: max-content;
+        // flex-grow: 1;
+    }
+}

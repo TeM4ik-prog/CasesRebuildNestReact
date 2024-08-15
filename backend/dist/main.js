@@ -8,6 +8,7 @@ async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule);
     app.setGlobalPrefix('api');
     app.use('/uploads', express.static((0, path_1.join)(__dirname, '..', 'uploads')));
+    app.use('/public', express.static((0, path_1.join)(__dirname, '..', 'public')));
     app.use(express.static((0, path_1.join)(__dirname, '../..', 'client', 'dist')));
     app.use((req, res, next) => {
         if (req.path.startsWith('/api')) {

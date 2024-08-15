@@ -4,10 +4,13 @@ import CoinsValueBlock from "../../coinsValue/coinsValue";
 
 import "./header.scss"
 import { useDispatch } from "react-redux";
+import { useUserData } from "../../../store/hooks/useAuth";
 
 
 export default function Header() {
     const { user } = useUserData();
+    console.log(user);
+
 
     const dispatch = useDispatch()
 

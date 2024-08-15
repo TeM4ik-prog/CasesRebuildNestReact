@@ -1,0 +1,19 @@
+.user-container {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.25rem;
+
+    p,
+    .text_coin {
+        font-size: calc(0.75em + 0.75vw);
+    }
+
+
+    .avatar {
+        border-radius: 50%;
+        width: calc(3em + 1vw);
+        height: calc(3em + 1vw);
+    }
+}

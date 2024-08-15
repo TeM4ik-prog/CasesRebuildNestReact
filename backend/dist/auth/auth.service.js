@@ -11,43 +11,30 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthService = void 0;
 const common_1 = require("@nestjs/common");
+const argon2 = require("argon2");
 const jwt_1 = require("@nestjs/jwt");
 const users_service_1 = require("../users/users.service");
-const database_service_1 = require("../database/database.service");
-const crypto = require("crypto");
 let AuthService = class AuthService {
-    constructor(usersService, databaseService, jwtService) {
+    constructor(usersService, jwtService) {
         this.usersService = usersService;
-        this.databaseService = databaseService;
         this.jwtService = jwtService;
     }
-    checkTelegramAuth(data, token) {
-        const secret = crypto.createHash('sha256').update(token).digest();
-        const checkString = Object.keys(data)
-            .filter((key) => key !== 'hash')
-            .sort()
-            .map((key) => `${key}=${data[key]}`)
-            .join('\n');
-        const hash = crypto.createHmac('sha256', secret).update(checkString).digest('hex');
-        return hash === data.hash;
-    }
-    async validateUser(telegramUserData, token) {
-        if (!this.checkTelegramAuth(telegramUserData, token)) {
-            throw new common_1.UnauthorizedException('Invalid Telegram data');
+    async validateUser(telegramId, password) {
+        const user = await this.usersService.findOne(telegramId);
+        const passwordIsMatch = await argon2.verify(user.password, password);
+        if (user && passwordIsMatch) {
+            return user;
         }
-        const { telegramId } = telegramUserData;
-        let user = await this.databaseService.user.findUnique({ where: { telegramId } });
-        if (!user) {
-            user = await this.databaseService.user.create({
-                data: telegramUserData,
-            });
-        }
-        return user;
+        throw new common_1.UnauthorizedException(`Invalid password: ${password}`);
     }
     async login(user) {
-        const payload = { username: user.username, sub: user.userId };
+        const { id, telegramId, money, username } = user;
         return {
-            access_token: this.jwtService.sign(payload),
+            id,
+            telegramId,
+            money,
+            username,
+            token: this.jwtService.sign({ id, telegramId }),
         };
     }
 };
@@ -55,7 +42,6 @@ exports.AuthService = AuthService;
 exports.AuthService = AuthService = __decorate([
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [users_service_1.UsersService,
-        database_service_1.DatabaseService,
         jwt_1.JwtService])
 ], AuthService);
 //# sourceMappingURL=auth.service.js.map
