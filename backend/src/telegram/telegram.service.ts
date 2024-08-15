@@ -1,6 +1,6 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import TelegramBot from 'node-telegram-bot-api';
+import * as TelegramBot from 'node-telegram-bot-api';
 import axios from 'axios';
 import * as path from 'path';
 import { DatabaseService } from 'src/database/database.service';
@@ -16,6 +16,7 @@ export class TelegramService implements OnModuleInit {
 
   onModuleInit() {
     const token = this.configService.get<string>('TELEGRAM_TOKEN');
+    console.log(token)
     this.bot = new TelegramBot(token, { polling: true });
     this.initializeBot();
   }
@@ -30,18 +31,10 @@ export class TelegramService implements OnModuleInit {
       const username = msg.chat.username;
       const telegramId = chatId.toString();
 
-      let photosObjData = await this.bot.getUserProfilePhotos(userId);
-      let fileAvatarUrl = null;
-      if (photosObjData.photos[0]) {
-        let fileId = photosObjData.photos[0][photosObjData.photos[0].length - 1].file_id;
-        const file = await this.bot.getFile(fileId);
-        fileAvatarUrl = `https://api.telegram.org/file/bot${this.configService.get<string>('TELEGRAM_TOKEN')}/${file.file_path}`;
-      }
-
       let user = await this.databaseService.user.findUnique({ where: { telegramId: telegramId } });
       if (!user) {
         user = await this.databaseService.user.create({
-          data: { telegramId, username, avatar: fileAvatarUrl },
+          data: { telegramId, username },
         });
       }
 

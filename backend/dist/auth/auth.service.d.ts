@@ -1,21 +1,21 @@
 import { JwtService } from "@nestjs/jwt";
-import { IUser } from 'src/types/types';
 import { UsersService } from 'src/users/users.service';
+import { DatabaseService } from 'src/database/database.service';
+import { Prisma } from '@prisma/client';
 export declare class AuthService {
     private readonly usersService;
+    private readonly databaseService;
     private readonly jwtService;
-    constructor(usersService: UsersService, jwtService: JwtService);
-    validateUser(email: string, password: string): Promise<{
+    constructor(usersService: UsersService, databaseService: DatabaseService, jwtService: JwtService);
+    checkTelegramAuth(data: Record<string, any>, token: string): boolean;
+    validateUser(telegramUserData: Prisma.UserCreateInput, token: string): Promise<{
         id: number;
-        name: string;
-        email: string;
-        password: string;
-        createdAt: Date;
-        updatedAt: Date;
+        telegramId: string;
+        username: string | null;
+        money: number;
+        avatar: string | null;
     }>;
-    login(user: IUser): Promise<{
-        id: string;
-        email: string;
-        token: string;
+    login(user: any): Promise<{
+        access_token: string;
     }>;
 }

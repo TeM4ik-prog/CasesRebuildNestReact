@@ -3,22 +3,20 @@ import { Prisma } from '@prisma/client';
 export declare class UsersController {
     private readonly usersService;
     constructor(usersService: UsersService);
-    create(usersCreateDto: Prisma.UsersCreateInput): Promise<{
+    create(usersCreateDto: Prisma.UserCreateInput): Promise<{
         user: {
             id: number;
-            name: string;
-            email: string;
-            password: string;
-            createdAt: Date;
-            updatedAt: Date;
+            telegramId: string;
+            username: string | null;
+            money: number;
+            avatar: string | null;
         };
     }>;
     findAll(): Promise<{
         id: number;
-        name: string;
-        email: string;
-        password: string;
-        createdAt: Date;
-        updatedAt: Date;
+        telegramId: string;
+        username: string | null;
+        money: number;
+        avatar: string | null;
     }[]>;
 }

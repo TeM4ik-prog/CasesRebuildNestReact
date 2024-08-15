@@ -13,36 +13,34 @@ exports.UsersService = void 0;
 const common_1 = require("@nestjs/common");
 const database_service_1 = require("../database/database.service");
 const jwt_1 = require("@nestjs/jwt");
-const argon2 = require("argon2");
 let UsersService = class UsersService {
     constructor(databaseService, jwtService) {
         this.databaseService = databaseService;
         this.jwtService = jwtService;
     }
     async create(usersCreateDto) {
-        let existingUser = await this.databaseService.users.findUnique({
-            where: { email: usersCreateDto.email },
+        let existingUser = await this.databaseService.user.findUnique({
+            where: { telegramId: usersCreateDto.telegramId },
         });
         if (existingUser)
-            throw new common_1.BadRequestException(`Employee ${usersCreateDto.email} already exists`);
-        const user = await this.databaseService.users.create({
+            throw new common_1.BadRequestException(`Employee ${usersCreateDto.username} already exists`);
+        const user = await this.databaseService.user.create({
             data: {
                 ...usersCreateDto,
-                password: await argon2.hash(usersCreateDto.password)
             }
         });
         return { user };
     }
-    async findOne(email) {
-        const user = await this.databaseService.users.findUnique({
-            where: { email },
+    async findOne(telegramId) {
+        const user = await this.databaseService.user.findUnique({
+            where: { telegramId },
         });
         if (!user)
-            throw new common_1.NotFoundException(`User with email ${email} not found`);
+            throw new common_1.NotFoundException(`User with email ${telegramId} not found`);
         return user;
     }
     async findAll() {
-        return await this.databaseService.users.findMany();
+        return await this.databaseService.user.findMany();
     }
 };
 exports.UsersService = UsersService;

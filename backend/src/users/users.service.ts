@@ -11,32 +11,32 @@ export class UsersService {
     private readonly databaseService: DatabaseService,
     private readonly jwtService: JwtService
   ) { }
-  async create(usersCreateDto: Prisma.UsersCreateInput) {
-    let existingUser = await this.databaseService.users.findUnique({
-      where: { email: usersCreateDto.email },
+  async create(usersCreateDto: Prisma.UserCreateInput) {
+    let existingUser = await this.databaseService.user.findUnique({
+      where: { telegramId: usersCreateDto.telegramId },
     })
 
-    if (existingUser) throw new BadRequestException(`Employee ${usersCreateDto.email} already exists`);
+    if (existingUser) throw new BadRequestException(`Employee ${usersCreateDto.username} already exists`);
 
-    const user = await this.databaseService.users.create({
+    const user = await this.databaseService.user.create({
       data: {
         ...usersCreateDto,
-        password: await argon2.hash(usersCreateDto.password)
+        // password: await argon2.hash(usersCreateDto.password)
       }
     });
     return { user }
   }
 
-  async findOne(email: string) {
-    const user = await this.databaseService.users.findUnique({
-      where: { email },
+  async findOne(telegramId: string) {
+    const user = await this.databaseService.user.findUnique({
+      where: { telegramId },
     })
 
-    if (!user) throw new NotFoundException(`User with email ${email} not found`);
+    if (!user) throw new NotFoundException(`User with email ${telegramId} not found`);
     return user
   }
-  
+
   async findAll() {
-    return await this.databaseService.users.findMany();
+    return await this.databaseService.user.findMany();
   }
 }

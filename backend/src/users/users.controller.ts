@@ -8,7 +8,7 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) { }
 
   @Post()
-  create(@Body() usersCreateDto: Prisma.UsersCreateInput) {
+  create(@Body() usersCreateDto: Prisma.UserCreateInput) {
     return this.usersService.create(usersCreateDto);
   }
 

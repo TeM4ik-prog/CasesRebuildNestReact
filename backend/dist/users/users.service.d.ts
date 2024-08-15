@@ -5,30 +5,27 @@ export declare class UsersService {
     private readonly databaseService;
     private readonly jwtService;
     constructor(databaseService: DatabaseService, jwtService: JwtService);
-    create(usersCreateDto: Prisma.UsersCreateInput): Promise<{
+    create(usersCreateDto: Prisma.UserCreateInput): Promise<{
         user: {
             id: number;
-            name: string;
-            email: string;
-            password: string;
-            createdAt: Date;
-            updatedAt: Date;
+            telegramId: string;
+            username: string | null;
+            money: number;
+            avatar: string | null;
         };
     }>;
-    findOne(email: string): Promise<{
+    findOne(telegramId: string): Promise<{
         id: number;
-        name: string;
-        email: string;
-        password: string;
-        createdAt: Date;
-        updatedAt: Date;
+        telegramId: string;
+        username: string | null;
+        money: number;
+        avatar: string | null;
     }>;
     findAll(): Promise<{
         id: number;
-        name: string;
-        email: string;
-        password: string;
-        createdAt: Date;
-        updatedAt: Date;
+        telegramId: string;
+        username: string | null;
+        money: number;
+        avatar: string | null;
     }[]>;
 }
