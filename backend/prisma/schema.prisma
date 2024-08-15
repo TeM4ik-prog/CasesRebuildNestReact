@@ -7,9 +7,9 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Users {
+model User {
   id         Int     @id @default(autoincrement())
-  telegramId String
+  telegramId String  @unique
   username   String?
   money      Int     @default(50)
   avatar     String?
@@ -26,9 +26,9 @@ model Loot {
 }
 
 model InventoryLoot {
-  id     Int    @id @default(autoincrement())
-  userId Int
-  img    String
-  quantity Int @default(1)
+  id        Int    @id @default(autoincrement())
+  userId    Int
+  img       String
+  quantity  Int    @default(1)
   openPrice Int
 }

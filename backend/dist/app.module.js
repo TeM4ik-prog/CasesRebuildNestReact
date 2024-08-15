@@ -13,6 +13,8 @@ const app_service_1 = require("./app.service");
 const database_module_1 = require("./database/database.module");
 const auth_module_1 = require("./auth/auth.module");
 const users_module_1 = require("./users/users.module");
+const telegram_module_1 = require("./telegram/telegram.module");
+const config_1 = require("@nestjs/config");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -22,6 +24,8 @@ exports.AppModule = AppModule = __decorate([
             database_module_1.DatabaseModule,
             auth_module_1.AuthModule,
             users_module_1.UsersModule,
+            telegram_module_1.TelegramModule,
+            config_1.ConfigModule.forRoot()
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

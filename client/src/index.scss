@@ -1,61 +1,133 @@
-@import './assets/variables.scss';
-
 @font-face {
-  font-family: 'Inconsolata';
-  src: url('./assets/fonts/Inconsolata-VariableFont_wdth\,wght.ttf') format('truetype');
+  font-family: '04B_30';
+  src: url('../public/fonts/04B_30__.TTF') format('truetype');
   font-weight: 700;
   font-style: normal;
 }
 
-#root {
-  font-family: Inconsolata;
+@font-face {
+  font-family: 'lilitaonerus';
+  src: url('../public/fonts/lilitaonerus.ttf') format('truetype');
   font-weight: 700;
-  background-color: $light-color;
-  color: $dark-color;
-  box-sizing: border-box;
-  display: inline-flex;
-  flex-direction: column;
+  font-style: normal;
+}
+
+
+#root {
+  position: relative;
+  font-family: '04B_30', 'lilitaonerus', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  /* line-height: 1.5; */
+  font-weight: 700;
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  // background-color: #242424;
   position: relative;
   width: 100%;
   height: max-content;
+  height: 100%;
   min-height: 100%;
+  flex-direction: column;
+  display: inline-flex;
+  justify-content: left;
+  // align-items: flex-start;
+  // text-align: center;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-y: auto;
 
-  * {
-    font-family: Inconsolata;
-    margin: 0;
-  }
 }
 
+.container-page {
 
-.body-container {
-  height: 100%;
-  flex: 1;
+  position: relative;
+
   display: inline-flex;
   flex-direction: column;
-  padding: calc(0.5rem + 0.75vw);
-  box-sizing: border-box;
+  height: 100%;
+  // height: max-content;
+  // min-height: 100%;
+  // max-height: 100%;
+  width: 100%;
 
-  & * {
-    margin: 0;
+  text-align: center;
+
+  animation: rootAppear 0.5s ease-in-out forwards;
+
+}
+
+
+
+
+
+
+
+@keyframes rootAppear {
+  0% {
+    transform: translateY(10%);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 1;
   }
 }
 
-#root::-webkit-scrollbar {
-  background: $dark-color;
-  width: 7px;
-  height: 5px;
-  z-index: 100;
+
+
+a {
+  font-weight: 700;
+  text-decoration: inherit;
 }
 
 
-#root::-webkit-scrollbar-thumb {
-  background: #838383;
-  border-radius: 10px;
-  position: absolute;
 
+.top-header-text-page {
+  width: min-content;
+  text-wrap: nowrap;
+  margin: 1rem auto 1rem auto;
+  font-size: calc(2em + 1.5vw);
+}
+
+
+
+input,
+select {
+  font-family: Inter;
+  font-size: calc(1em + 0.5vw);
+  font-weight: 400;
+  box-sizing: border-box;
+  appearance: none;
+  background-color: #eaeaea;
+  height: min-content;
+  color: #000000;
+  padding: 0.5rem;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  z-index: 100;
+  transition: 0.6s;
+  font-family: 'lilitaonerus';
+
+}
+
+
+button {
+  font-family: '04B_30', 'lilitaonerus';
+  font-size: calc(0.5em + 0.5vw);
+  line-height: 160%;
+  border-radius: 8px;
+  // width: min-content;
+  font-weight: 700;
+  box-shadow: inset 0px -2px 0px #1849cc;
+  color: #ffffff;
+  background-color: #2663f0;
+  border: none;
+  cursor: pointer;
+  padding: 0.35rem 1.5rem 0.35rem 1.5rem;
+  justify-content: end;
+  box-sizing: border-box;
+  margin-top: auto;
+  width: max-content;
 }
