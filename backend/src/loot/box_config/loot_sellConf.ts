@@ -1,28 +1,20 @@
-// const { CategoryRare } = require("../models/models")
+import { LootCategory } from "./box_loot";
 
-// async function ReturnSellCoefficientByCategoryId(CategoryId) {
-//     let CategoryName = (await CategoryRare.findByPk(CategoryId)).toJSON().rareName
+const categoryCoefficients: { [key in keyof LootCategory]: number } = {
+    common: 0.33,
+    uncommon: 1.5,
+    epic: 3,
+    legendary: 8,
+};
 
-//     let Coefficient
-//     switch (CategoryName) {
-//         case 'common':
-//             Coefficient = 0.33
-//             break;
-//         case 'uncommon':
-//             Coefficient = 1.5
-//             break;
-//         case 'epic':
-//             Coefficient = 3
-//             break;
-//         case 'legendary':
-//             Coefficient = 8
-//             break;
-//     }
-
-//     return Coefficient
-// }
+export async function ReturnSellCoefficientByCategoryId(categoryName: keyof LootCategory) {
+    const coefficient = categoryCoefficients[categoryName];
+  
+    if (coefficient === undefined) {
+      throw new Error(`Unknown category: ${categoryName}`);
+    }
+  
+    return coefficient;
+}
 
 
-// module.exports = {
-//     ReturnSellCoefficientByCategoryId
-// } 

@@ -19,4 +19,5 @@ export declare class UsersController {
         username: string | null;
         money: number;
     }[]>;
+    getInventory(req: any): Promise<import("../types/types").ILootWithSellData[]>;
 }

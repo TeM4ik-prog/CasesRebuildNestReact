@@ -21,6 +21,8 @@ const config_1 = require("@nestjs/config");
 const loot_module_1 = require("./loot/loot.module");
 const database_service_1 = require("./database/database.service");
 const loot_service_1 = require("./loot/loot.service");
+const jwt_1 = require("@nestjs/jwt");
+const statistic_module_1 = require("./statistic/statistic.module");
 let AppModule = class AppModule {
     constructor(lootService, databaseService) {
         this.lootService = lootService;
@@ -46,6 +48,15 @@ exports.AppModule = AppModule = __decorate([
             telegram_module_1.TelegramModule,
             loot_module_1.LootModule,
             config_1.ConfigModule.forRoot(),
+            jwt_1.JwtModule.registerAsync({
+                imports: [config_1.ConfigModule],
+                useFactory: async (configService) => ({
+                    secret: configService.get('JWT_SECRET'),
+                    signOptions: { expiresIn: '1d' },
+                }),
+                inject: [config_1.ConfigService],
+            }),
+            statistic_module_1.StatisticModule
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService, loot_service_1.LootService],

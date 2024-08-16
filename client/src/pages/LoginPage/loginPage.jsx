@@ -6,7 +6,7 @@ import "./loginPage.scss";
 // import { triggerUserDataContext, userDataContext } from "../../App";
 import Loader from "../../components/particals/loader/loader";
 import { AuthService } from "../../services/auth.service";
-import { setTokenToLocalStorage } from "../../helper/localstorage.helper";
+import { getIsUserEducatedFromLocalStorage, setIsUserEducatedToLocalStorage, setTokenToLocalStorage } from "../../helper/localstorage.helper";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { login } from "../../store/user/user.slice";
@@ -19,8 +19,13 @@ export default function LoginPage() {
     const telegramId = searchParams.get("telegramId")
     const username = searchParams.get("username")
 
+    let isUserEducated = getIsUserEducatedFromLocalStorage()
+
     let location = useLocation()
     let dispatch = useDispatch()
+
+
+
 
     const loginHandler = async () => {
         console.log("Login")
@@ -51,7 +56,15 @@ export default function LoginPage() {
             if (data) {
                 dispatch(login(data.user))
                 toast.success('Account has been registered')
-                navigate('/')
+
+                if (!isUserEducated) {
+                    setIsUserEducatedToLocalStorage()
+                    navigate('/education')
+                }
+                else {
+                    navigate('/')
+
+                }
             }
 
         } catch (err) {

@@ -12,21 +12,16 @@ const users_service_1 = require("./users.service");
 const users_controller_1 = require("./users.controller");
 const database_module_1 = require("../database/database.module");
 const jwt_1 = require("@nestjs/jwt");
-const config_1 = require("@nestjs/config");
+const loot_module_1 = require("../loot/loot.module");
 let UsersModule = class UsersModule {
 };
 exports.UsersModule = UsersModule;
 exports.UsersModule = UsersModule = __decorate([
     (0, common_1.Module)({
-        imports: [database_module_1.DatabaseModule,
-            jwt_1.JwtModule.registerAsync({
-                imports: [config_1.ConfigModule],
-                useFactory: async (configService) => ({
-                    secret: configService.get('JWT_SECRET'),
-                    signOptions: { expiresIn: '1d' },
-                }),
-                inject: [config_1.ConfigService],
-            })
+        imports: [
+            database_module_1.DatabaseModule,
+            jwt_1.JwtModule,
+            loot_module_1.LootModule,
         ],
         controllers: [users_controller_1.UsersController],
         providers: [users_service_1.UsersService],

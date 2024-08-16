@@ -1,13 +1,20 @@
-interface LootItem {
+export interface LootItem {
     img: string;
+    id?: number;
+    categoryRareId?: number;
 }
 
-interface LootCategory {
+export interface LootCategory {
     common: LootItem[];
     uncommon: LootItem[];
     epic: LootItem[];
     legendary: LootItem[];
 }
+
+
+
+
+
 
 export const LootCreateObj: LootCategory = {
     common: [

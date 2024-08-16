@@ -5,10 +5,12 @@ import { DatabaseModule } from './database/database.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { TelegramModule } from './telegram/telegram.module';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { LootModule } from './loot/loot.module';
 import { DatabaseService } from './database/database.service';
 import { LootService } from './loot/loot.service';
+import { JwtModule } from '@nestjs/jwt';
+import { StatisticModule } from './statistic/statistic.module';
 
 @Module({
   imports: [
@@ -17,9 +19,18 @@ import { LootService } from './loot/loot.service';
     UsersModule,
     TelegramModule,
     LootModule,
-
-
     ConfigModule.forRoot(),
+
+    JwtModule.registerAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => ({
+        secret: configService.get('JWT_SECRET'),
+        signOptions: { expiresIn: '1d' },
+      }),
+      inject: [ConfigService],
+    }),
+
+    StatisticModule
   ],
   controllers: [AppController],
   providers: [AppService, LootService],

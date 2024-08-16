@@ -10,16 +10,13 @@
     gap: calc(3em + 2vh);
     width: 100%;
 
-
-    // flex-grow: 1;
-
     .openCase {
         position: relative;
         overflow: hidden;
         width: 100%;
         box-sizing: border-box;
 
-        height: calc(8em + 8vw);
+        height: calc(9em + 8vw);
 
         border: 0.3rem solid #000;
         border-radius: 10px;
@@ -78,13 +75,16 @@
             margin: 0%;
             z-index: 2000;
         }
+
+
+        &.active {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.6);
+        }
     }
 
 
-    .openCase.active {
-        transform: translateY(-10px);
-        box-shadow: 0 12px 20px rgba(0, 0, 0, 0.6);
-    }
+   
 
     .openCase::before {
         content: '';
@@ -102,6 +102,7 @@
 
 
     .butts-container {
+        margin: 0 auto;
         display: inline-flex;
         flex-direction: column;
         gap: 1rem;

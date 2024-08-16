@@ -7,6 +7,8 @@ import axios from "axios";
 import Loader from "../../components/particals/loader/loader";
 import { LootService } from "../../services/loot.service";
 import { toast } from "react-toastify";
+import { UserService } from "../../services/users.service";
+import { useUpdateInventoryTrigger } from "../../store/hooks/useAuth";
 
 
 
@@ -16,15 +18,11 @@ export default function InventoryPage() {
     const [userInventory, setUserInventory] = useState([])
     const [isInventoryLoading, setIsInventoryLoading] = useState(true)
 
-    const [triggerUpdate, setTriggerUpdate] = useState(false)
-
-    const handleTrigger = () => {
-        setTriggerUpdate(!triggerUpdate)
-    }
+    let inventoryTrigger = useUpdateInventoryTrigger()
 
     const getUserLoot = async () => {
         try {
-            const data = await LootService.getUserInventory()
+            const data = await UserService.getUserInventory()
             console.log(data)
             if (data) {
                 setUserInventory(data)
@@ -38,7 +36,7 @@ export default function InventoryPage() {
 
     useEffect(() => {
         getUserLoot()
-    }, [triggerUpdate])
+    }, [inventoryTrigger])
 
     userInventory
     return (
@@ -49,7 +47,7 @@ export default function InventoryPage() {
                 <p className="top-header-text-page">Инвентарь</p>
 
                 {!isInventoryLoading ? (
-                    <ItemsList array_items={userInventory} handleTrigger={handleTrigger} />
+                    <ItemsList array_items={userInventory} />
                 ) : <Loader />}
 
             </div>

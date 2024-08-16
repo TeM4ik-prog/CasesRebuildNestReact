@@ -8,17 +8,19 @@ datasource db {
 }
 
 model User {
-  id         Int     @id @default(autoincrement())
-  telegramId String  @unique
-  password   String
-  username   String?
-  money      Int     @default(50)
+  id            Int             @id @default(autoincrement())
+  telegramId    String          @unique
+  password      String
+  username      String?
+  money         Int             @default(50)
+  InventoryLoot InventoryLoot[]
 }
 
 model CategoryRare {
-  id   Int    @id @default(autoincrement())
-  name String @unique
-  Loot Loot[]
+  id            Int             @id @default(autoincrement())
+  name          String          @unique
+  Loot          Loot[]
+  InventoryLoot InventoryLoot[]
 }
 
 model Loot {
@@ -29,9 +31,12 @@ model Loot {
 }
 
 model InventoryLoot {
-  id        Int    @id @default(autoincrement())
-  userId    Int
-  img       String
-  quantity  Int    @default(1)
-  openPrice Int
+  id             Int          @id @default(autoincrement())
+  userId         Int
+  img            String
+  quantity       Int          @default(1)
+  openPrice      Int
+  user           User         @relation(fields: [userId], references: [id])
+  categoryRare   CategoryRare @relation(fields: [categoryRareId], references: [id])
+  categoryRareId Int
 }

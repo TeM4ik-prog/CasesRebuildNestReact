@@ -3,15 +3,15 @@ import { instance } from "../api/axios.api"
 export const LootService = {
 
     async openBox(openPrice) {
-
         let data = await instance.post('/loot/open', { openPrice })
-        return data
+        return data.data
     },
 
-    async getUserInventory() {
+    async sellLoot(sellData) {
+        let data = await instance.post('/loot/sell', { sellData })
+        return data.data
+    },
 
-        let data = await instance.get('/userInventory')
-        return data
-    }
+   
 
 }

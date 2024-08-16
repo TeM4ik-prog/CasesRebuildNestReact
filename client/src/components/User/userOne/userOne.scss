@@ -12,8 +12,18 @@
 
 
     .avatar {
+        border: 0.1rem solid black;
         border-radius: 50%;
         width: calc(3em + 1vw);
         height: calc(3em + 1vw);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+
+        div {
+            filter: invert(100%);
+            // font-size: calc(1em + 1vw);
+            font-weight: bold;
+        }
     }
 }

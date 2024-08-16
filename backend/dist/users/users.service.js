@@ -14,10 +14,12 @@ const common_1 = require("@nestjs/common");
 const database_service_1 = require("../database/database.service");
 const jwt_1 = require("@nestjs/jwt");
 const argon2 = require("argon2");
+const loot_service_1 = require("../loot/loot.service");
 let UsersService = class UsersService {
-    constructor(databaseService, jwtService) {
+    constructor(databaseService, jwtService, lootService) {
         this.databaseService = databaseService;
         this.jwtService = jwtService;
+        this.lootService = lootService;
     }
     async create(usersCreateDto) {
         let existingUser = await this.databaseService.user.findUnique({
@@ -42,14 +44,43 @@ let UsersService = class UsersService {
             throw new common_1.NotFoundException(`User with telegramId ${telegramId} not found`);
         return user;
     }
+    async findOneById(id) {
+        return await this.databaseService.user.findUnique({
+            where: { id },
+        });
+    }
+    async incrementUserMoney(id, amount) {
+        return await this.databaseService.user.update({
+            where: { id },
+            data: {
+                money: {
+                    increment: amount,
+                },
+            },
+        });
+    }
     async findAll() {
         return await this.databaseService.user.findMany();
+    }
+    async getInventory(userId) {
+        const userInventory = await this.databaseService.inventoryLoot.findMany({
+            where: {
+                userId: userId
+            },
+            include: {
+                categoryRare: true
+            }
+        });
+        if (!userInventory)
+            return;
+        return await this.lootService.CalculateSellPrice(userInventory);
     }
 };
 exports.UsersService = UsersService;
 exports.UsersService = UsersService = __decorate([
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [database_service_1.DatabaseService,
-        jwt_1.JwtService])
+        jwt_1.JwtService,
+        loot_service_1.LootService])
 ], UsersService);
 //# sourceMappingURL=users.service.js.map

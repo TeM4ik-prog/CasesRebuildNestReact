@@ -7,28 +7,28 @@ import OneItem from "../BoxItem/OneItem/oneItem"
 import ItemsList from "../BoxItem/ItemsList/ItemsList"
 import { LootService } from "../../services/loot.service"
 import { toast } from "react-toastify"
+import { updateData } from "../../store/user/user.slice"
+import { useDispatch } from "react-redux"
+import { useUserData } from "../../store/hooks/useAuth"
+import { getOpenPriceFromLocalStorage, setOpenPriceToLocalStorage } from "../../helper/localstorage.helper"
 
 
 export default function FieldOpenCases({ isActive = true }) {
-    console.log(isActive)
-    // let { userData } = useContext(userDataContext)
-    // let { handleTriggerUpdateUser } = useContext(triggerUserDataContext)
+    const dispatch = useDispatch()
+    const { user } = useUserData();
 
-    const [moneyToOpen, setMoneyToOpen] = useState('')
+
+    const [moneyToOpen, setMoneyToOpen] = useState(getOpenPriceFromLocalStorage())
     const [boxLoot, setBoxLoot] = useState([])
     const [isBoxOpening, setIsBoxOpening] = useState(false)
 
     const [isAllImagesLoaded, setIsAllImagesLoaded] = useState(false);
 
     const loadImage = async (url) => {
-        console.log('img Loaded')
-        console.log(url)
         return new Promise((resolve) => {
             const img = new Image();
             img.onload = () => resolve(url);
             img.src = url;
-
-
         });
     };
 
@@ -36,63 +36,49 @@ export default function FieldOpenCases({ isActive = true }) {
 
     let onOpen = async (e) => {
         e.preventDefault()
+        setOpenPriceToLocalStorage(moneyToOpen)
         setIsBoxOpening(true)
         try {
             const data = await LootService.openBox(moneyToOpen)
-            console.log(data)
             if (data) {
-                // dispatch(login(data.user))
+                dispatch(updateData())
 
-                setBoxLoot(response.data.Result_Loot_box)
-                await Promise.all(response.data.Result_Loot_box.map(image => loadImage(image.img)));
+                setBoxLoot(data)
+                await Promise.all(data.map(image => loadImage(image.img)));
                 setIsAllImagesLoaded(true)
 
-                setTimeout(() => {
-                    onScrollIntoView()
-                }, 300);
-
+                setTimeout(onScrollIntoView, 300);
             }
         } catch (err) {
             toast.error(err.response.data.message)
         }
     }
 
-    function scrollToElementX(container, element, duration) {
-        const elementPos = element.getBoundingClientRect();
-        const containerPos = container.getBoundingClientRect();
+    const scrollToElementX = (container, element, duration) => {
+        const elementCenter = element.getBoundingClientRect().left + element.clientWidth / 2;
+        const containerCenter = container.clientWidth / 2;
 
-        const lootBoxContainer = document.querySelector('.loot-box-container');
+        const scrollPos = containerCenter - elementCenter;
+        const lootBoxContainer = container.querySelector('.loot-box-container');
 
-        const containerCenter = containerPos.width / 2;
-        const elementCenter = elementPos.left + (elementPos.width / 2);
-
-        console.log(lootBoxContainer.getBoundingClientRect())
-        const scrollPos = containerCenter - elementCenter + containerPos.width
-
-
-        lootBoxContainer.style.transition = `left ${duration}ms cubic-bezier(0.075, 0.82, 0.165, 1)`;
-        lootBoxContainer.style.left = `${scrollPos}px`;
-
+        lootBoxContainer.style.transition = `transform ${duration}ms cubic-bezier(0.075, 0.82, 0.165, 1)`;
+        lootBoxContainer.style.transform = `translateX(${scrollPos}px)`;
 
         setTimeout(() => {
-            lootBoxContainer.style.transition = `0s`;
-            lootBoxContainer.style.left = `100%`;
+            lootBoxContainer.style.transition = '0s';
+            lootBoxContainer.style.transform = 'translateX(100%)';
 
-            setBoxLoot([])
-            setIsBoxOpening(false)
-            setIsAllImagesLoaded(false)
+            setBoxLoot([]);
+            setIsBoxOpening(false);
+            setIsAllImagesLoaded(false);
         }, duration);
+    };
 
-
-    }
-
-
-    let onScrollIntoView = () => {
-        const elem = document.getElementById('loot_19');
+    const onScrollIntoView = () => {
         const container = document.querySelector('.openCase');
-
+        const elem = document.getElementById('loot_25');
         scrollToElementX(container, elem, 8000);
-    }
+    };
 
     return (
 
@@ -122,7 +108,7 @@ export default function FieldOpenCases({ isActive = true }) {
                     Открыть({moneyToOpen ? moneyToOpen : 'не указанно'})
                 </button>
 
-                <input required min={10} max={{}?.money} className="input_money_value" type="number"
+                <input required min={10} max={user?.money} className="input_money_value" type="number"
                     placeholder="Введите стоимось открытия"
                     value={moneyToOpen}
                     onChange={(e) => (setMoneyToOpen(e.target.value))}

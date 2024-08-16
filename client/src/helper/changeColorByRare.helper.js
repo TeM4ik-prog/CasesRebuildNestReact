@@ -1,4 +1,4 @@
-export let ChangeColorByRare = (rare) => {
+export function changeColorByRare(rare) {
     switch (rare) {
         case 'common':
             return "gray"
@@ -14,5 +14,7 @@ export let ChangeColorByRare = (rare) => {
             break;
     }
 }
+
+
 
 

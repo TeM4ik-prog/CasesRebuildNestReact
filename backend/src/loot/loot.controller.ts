@@ -1,22 +1,31 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request } from '@nestjs/common';
 import { LootService } from './loot.service';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { ISellData } from 'src/types/types';
+
 
 @Controller('loot')
 export class LootController {
-  constructor(private readonly lootService: LootService) { }
+  constructor(
+    private readonly lootService: LootService,
 
-  // @Post()
-  // create(@Body() createLootDto: CreateLootDto) {
-  //   return this.lootService.create(createLootDto);
-  // }
+  ) { }
+
 
   @Post('/open')
   @UseGuards(JwtAuthGuard)
-  create(@Body() openPrice: number, @Request() req) {
+  create(@Body() openPrice: { openPrice: number }, @Request() req) {
     console.log(openPrice, req.user.id)
-    return this.lootService.openBox(openPrice);
+    return this.lootService.openBox(openPrice.openPrice, req.user.id);
   }
+
+
+  @Post('/sell')
+  @UseGuards(JwtAuthGuard)
+  sell(@Body() sellData, @Request() req) {
+    return this.lootService.sellLoot(sellData.sellData, req.user.id);
+  }
+
 
   // @Get()
   // findAll() {

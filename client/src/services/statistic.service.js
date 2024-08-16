@@ -5,7 +5,7 @@ export const StatisticService = {
     async getGlobalStatistic() {
 
         let data = await instance.get('/statistic/global')
-        return data
+        return data.data
     },
 
     async getUserStatistic() {

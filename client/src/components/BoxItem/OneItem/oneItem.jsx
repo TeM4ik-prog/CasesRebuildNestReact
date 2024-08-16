@@ -1,41 +1,51 @@
 import { useContext, useState } from "react"
 import "./oneItem.scss"
-import axios from "axios"
+
+import { changeColorByRare } from '../../../helper/changeColorByRare.helper'
+
 
 import CoinsValueBlock from "../../coinsValue/coinsValue"
-// import { triggerUserDataContext } from "../../../App"
-import { ChangeColorByRare } from "../../../helper/changeColorByRare.helper"
-// import { localSitePath } from "../../../../../LocalSitePath"
-
-export default function OneItem({ item_info, id, handleTrigger }) {
+import { toast } from "react-toastify"
+import { LootService } from "../../../services/loot.service"
+import { useDispatch } from "react-redux"
+import { updateData } from "../../../store/user/user.slice"
+import { updateInventory } from "../../../store/loot/loot.slice"
+import Loader from "../../particals/loader/loader"
+export default function OneItem({ item_info, id }) {
     const [isDialogOpen, setIsDialogOpen] = useState(false)
+    const [isLootSelling, setIsLootSelling] = useState(false)
 
-    // let { handleTriggerUpdateUser } = useContext(triggerUserDataContext)
+
+    const dispatch = useDispatch()
+
+    let onSellItem = async ({ itemIdInDb, isSellAll }) => {
+        setIsLootSelling(true)
+        try {
+            const data = await LootService.sellLoot({ itemIdInDb, isSellAll })
+            console.log(data)
+            if (data) {
+                setIsLootSelling(false)
+                setIsDialogOpen(false)
+
+                dispatch(updateData())
+                dispatch(updateInventory())
+
+                toast.success(`Баланс пополнен на: ${data.amountReceived}`)
+            }
+
+        } catch (err) {
+            toast.error(err.response.data.message)
+        }
+
+    }
 
 
-    console.log(item_info)
 
-    // let onSellItem = ({ itemIdInDb, isSellAll }) => {
 
-    //     axios.post(
-    //         `${localSitePath}/private/sellItem`,
-    //         { itemIdInDb, isSellAll })
-    //         .then((response) => {
-    //             console.log("User data", response.data)
-
-    //             setIsDialogOpen(false)
-    //             handleTrigger()
-    //             handleTriggerUpdateUser()
-    //         })
-    //         .catch((error) => {
-    //             console.log(error)
-    //         });
-
-    // }
 
     return (
 
-        <div id={!id ? null : `loot_${id}`} className="item-container" style={{ backgroundColor: ChangeColorByRare(item_info?.CategoryRare?.rareName) }}>
+        <div id={!id ? null : `loot_${id}`} className="item-container" style={{ backgroundColor: changeColorByRare(item_info?.categoryRare?.name) }}>
 
             <img src={item_info.img} onClick={item_info.openPrice ? () => (setIsDialogOpen(true)) : null} />
 
@@ -57,10 +67,6 @@ export default function OneItem({ item_info, id, handleTrigger }) {
             </div>
 
 
-
-
-
-
             {isDialogOpen ? (
                 <>
                     <div className="filter-block"></div>
@@ -78,24 +84,27 @@ export default function OneItem({ item_info, id, handleTrigger }) {
                             <CoinsValueBlock value={item_info.openPrice} />
                         </div>
 
-                        <img className="item_dialog-img" src={item_info.img} />
+                        {!isLootSelling ? (
+                            <>
+                                <img className="item_dialog-img" src={item_info.img} />
 
-                        <div className="sell-butts-container">
-                            <button onClick={() => onSellItem({ itemIdInDb: item_info.id, isSellAll: false })}>
-                                <div className="butt-container-info">
-                                    <p>Продать одно за </p>
-                                    <CoinsValueBlock value={item_info.sellPriceInfo.sellOne} />
+                                <div className="sell-butts-container">
+                                    <button onClick={() => onSellItem({ itemIdInDb: item_info.id, isSellAll: false })}>
+                                        <div className="butt-container-info">
+                                            <p>Продать одно за </p>
+                                            <CoinsValueBlock value={item_info?.sellOne} />
+                                        </div>
+                                    </button>
+
+                                    <button onClick={() => onSellItem({ itemIdInDb: item_info.id, isSellAll: true })}>
+                                        <div className="butt-container-info">
+                                            <p> Продать всё за </p>
+                                            <CoinsValueBlock value={item_info?.sellAll} />
+                                        </div>
+                                    </button>
                                 </div>
-                            </button>
-
-                            <button onClick={() => onSellItem({ itemIdInDb: item_info.id, isSellAll: true })}>
-                                <div className="butt-container-info">
-                                    <p> Продать всё за </p>
-                                    <CoinsValueBlock value={item_info.sellPriceInfo.sellAll} />
-                                </div>
-                            </button>
-                        </div>
-
+                            </>
+                        ) : <Loader />}
 
                     </div>
 
