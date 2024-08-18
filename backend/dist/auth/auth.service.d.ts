@@ -10,7 +10,7 @@ export declare class AuthService {
         telegramId: string;
         password: string;
         username: string | null;
-        money: import("@prisma/client/runtime/library").Decimal;
+        money: number;
     }>;
     login(user: IUser): Promise<{
         id: string;

@@ -174,10 +174,10 @@ export class LootService {
     const itemsValue: number = 30
 
     const user = await this.usersService.findOneById(userId)
-    
-    let userMoney: number = user.money.toNumber()
 
-    if (userMoney < openPrice) throw new BadRequestException('Not enough money')
+    console.log(user)
+
+    if (user.money < openPrice) throw new BadRequestException('Not enough money')
 
     const { common, uncommon, epic, legendary } = await this.getArLootByCategories()
     const resultLootBox = this.getRandomLoot({ common, uncommon, epic, legendary }, itemsValue)

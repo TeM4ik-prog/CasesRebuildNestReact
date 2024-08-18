@@ -13,7 +13,7 @@ export declare class UsersService {
             telegramId: string;
             password: string;
             username: string | null;
-            money: Prisma.Decimal;
+            money: number;
         };
     }>;
     findOne(telegramId: string): Promise<{
@@ -21,28 +21,28 @@ export declare class UsersService {
         telegramId: string;
         password: string;
         username: string | null;
-        money: Prisma.Decimal;
+        money: number;
     }>;
     findOneById(id: number): Promise<{
         id: number;
         telegramId: string;
         password: string;
         username: string | null;
-        money: Prisma.Decimal;
+        money: number;
     }>;
     incrementUserMoney(id: number, amount: number): Promise<{
         id: number;
         telegramId: string;
         password: string;
         username: string | null;
-        money: Prisma.Decimal;
+        money: number;
     }>;
     findAll(): Promise<{
         id: number;
         telegramId: string;
         password: string;
         username: string | null;
-        money: Prisma.Decimal;
+        money: number;
     }[]>;
     getInventory(userId: number): Promise<import("../types/types").ILootWithSellData[]>;
 }

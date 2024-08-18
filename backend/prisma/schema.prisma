@@ -3,8 +3,8 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider = "sqlite"
+  url      = "file:./dev.db"
 }
 
 model User {
@@ -12,7 +12,7 @@ model User {
   telegramId          String                @unique
   password            String
   username            String?
-  money               Decimal               @default(50) @db.Decimal(15, 2)
+  money               Float                 @default(50.00)
   InventoryLoot       InventoryLoot[]
   BombDefuserGameData BombDefuserGameData[]
 }
@@ -46,14 +46,13 @@ model InventoryLoot {
 
 model BombDefuserGameData {
   id          Int     @id @default(autoincrement())
-  speed_boost Decimal @default(1) @db.Decimal(10, 2)
-  time_boost  Decimal @default(1) @db.Decimal(10, 2)
-  money_boost Decimal @default(1) @db.Decimal(10, 2)
-  focus_boost Decimal @default(1) @db.Decimal(10, 2)
+  speed_boost Float    @default(1.00)
+  time_boost  Float    @default(1.00)
+  money_boost Float    @default(1.00)
+  focus_boost Float    @default(1.00)
 
   User   User @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId Int
 
   @@unique([userId])
-
 }

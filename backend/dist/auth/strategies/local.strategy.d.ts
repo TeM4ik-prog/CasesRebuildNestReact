@@ -8,7 +8,7 @@ export declare class LocalStrategy extends LocalStrategy_base {
         telegramId: string;
         password: string;
         username: string | null;
-        money: import("@prisma/client/runtime/library").Decimal;
+        money: number;
     }>;
 }
 export {};

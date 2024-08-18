@@ -9,7 +9,7 @@ export declare class JwtStrategy extends JwtStrategy_base {
     validate(user: IUser): Promise<{
         id: string;
         telegramId: string;
-        money: import("@prisma/client/runtime/library").Decimal;
+        money: number;
         username: string;
     }>;
 }

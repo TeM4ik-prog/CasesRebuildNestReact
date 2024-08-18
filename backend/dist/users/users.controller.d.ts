@@ -9,7 +9,7 @@ export declare class UsersController {
             telegramId: string;
             password: string;
             username: string | null;
-            money: Prisma.Decimal;
+            money: number;
         };
     }>;
     findAll(): Promise<{
@@ -17,7 +17,7 @@ export declare class UsersController {
         telegramId: string;
         password: string;
         username: string | null;
-        money: Prisma.Decimal;
+        money: number;
     }[]>;
     getInventory(req: any): Promise<import("../types/types").ILootWithSellData[]>;
     addMoney({ money }: {
