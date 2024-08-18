@@ -9,9 +9,16 @@ import { LootModule } from 'src/loot/loot.module';
 @Module({
   imports: [
     DatabaseModule,
-    JwtModule,
     LootModule,
 
+    JwtModule.registerAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => ({
+        secret: configService.get('JWT_SECRET'),
+        signOptions: { expiresIn: '1d' },
+      }),
+      inject: [ConfigService],
+    }),
    
   ],
   controllers: [UsersController],

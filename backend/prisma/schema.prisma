@@ -8,12 +8,13 @@ datasource db {
 }
 
 model User {
-  id            Int             @id @default(autoincrement())
-  telegramId    String          @unique
-  password      String
-  username      String?
-  money         Int             @default(50)
-  InventoryLoot InventoryLoot[]
+  id                  Int                   @id @default(autoincrement())
+  telegramId          String                @unique
+  password            String
+  username            String?
+  money               Decimal               @default(50) @db.Decimal(15, 2)
+  InventoryLoot       InventoryLoot[]
+  BombDefuserGameData BombDefuserGameData[]
 }
 
 model CategoryRare {
@@ -39,4 +40,20 @@ model InventoryLoot {
   user           User         @relation(fields: [userId], references: [id])
   categoryRare   CategoryRare @relation(fields: [categoryRareId], references: [id])
   categoryRareId Int
+}
+
+// _________games_________
+
+model BombDefuserGameData {
+  id          Int     @id @default(autoincrement())
+  speed_boost Decimal @default(1) @db.Decimal(10, 2)
+  time_boost  Decimal @default(1) @db.Decimal(10, 2)
+  money_boost Decimal @default(1) @db.Decimal(10, 2)
+  focus_boost Decimal @default(1) @db.Decimal(10, 2)
+
+  User   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId Int
+
+  @@unique([userId])
+
 }

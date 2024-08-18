@@ -25,7 +25,8 @@ export class UsersService {
     const user = await this.databaseService.user.create({
       data: {
         ...usersCreateDto,
-        password: await argon2.hash(usersCreateDto.password)
+        password: await argon2.hash(usersCreateDto.password),
+        BombDefuserGameData: { create: {} }
       }
     });
 

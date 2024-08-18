@@ -1,9 +1,11 @@
 import { Route, Routes } from 'react-router-dom';
 
-import OneMiniGame from '../../../components/MiniGamesPrevue/OneMiniGame';
-import NavMainPage from "../../../components/particals/navMainPage/navMainPage";
-// import BombDefuserGame from "./miniGames/BombDefuserGame/BombDefuserGame";
+import OneMiniGame from '../../components/MiniGamesPrevue/OneMiniGame';
+import NavMainPage from "../../components/particals/navMainPage/navMainPage";
 import "./miniGamesPage.scss";
+import BombDefuserGame from './miniGames/BombDefuserGame/BombDefuserGame';
+
+
 
 export default function MiniGamesPage() {
 

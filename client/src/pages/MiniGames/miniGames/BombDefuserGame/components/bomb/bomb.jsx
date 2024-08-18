@@ -16,7 +16,6 @@ export default function Bomb({ bombParams, removeBomb, LoseUser }) {
         });
     };
 
-    console.log(bombParams.boom_time)
     useEffect(() => {
         const interval = setInterval(() => {
             setTimeProgress(prevTime => {
@@ -34,11 +33,8 @@ export default function Bomb({ bombParams, removeBomb, LoseUser }) {
 
 
     return (
-
         <div className="bomb-container" onClick={handleClickBomb} style={{ top: `${bombParams.top}%`, left: `${bombParams.left}%` }}>
             <img style={{ rotate: bombParams.rotate }} src="../utils/C4.png" class="img_into" />
-
-
             <div className="bars-container">
                 <div className="bar-container">
                     <div className="progress-bar" style={{ width: `${bombProgress / bombParams.defuse_clicks * 100}%` }}></div>
@@ -48,14 +44,6 @@ export default function Bomb({ bombParams, removeBomb, LoseUser }) {
                 </div>
 
             </div>
-
-
-
-
-            {/* <meter className="progress_bar" min="0" max={bombParams.defuse_clicks} value={bombProgress}></meter>
-            <meter className="lose_bar" min="0" max="100" value={timeProgress}></meter> */}
         </div>
-
-
     )
 }

@@ -15,14 +15,25 @@ export class UsersController {
 
   @Get()
   findAll() {
-    return this.usersService.findAll();
+    return this.usersService.findAll()
   }
 
   @Get('/inventory')
   @UseGuards(JwtAuthGuard)
   getInventory(@Request() req) {
-    return this.usersService.getInventory(req.user.id);
+    return this.usersService.getInventory(req.user.id)
   }
+
+
+  @Post('/money')
+  @UseGuards(JwtAuthGuard)
+  addMoney(@Body() { money }, @Request() req) {
+    this.usersService.incrementUserMoney(req.user.id, money)
+    return money
+  }
+
+
+
 
 
 

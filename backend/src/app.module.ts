@@ -11,6 +11,7 @@ import { DatabaseService } from './database/database.service';
 import { LootService } from './loot/loot.service';
 import { JwtModule } from '@nestjs/jwt';
 import { StatisticModule } from './statistic/statistic.module';
+import { GamesModule } from './games/games.module';
 
 @Module({
   imports: [
@@ -21,16 +22,11 @@ import { StatisticModule } from './statistic/statistic.module';
     LootModule,
     ConfigModule.forRoot(),
 
-    JwtModule.registerAsync({
-      imports: [ConfigModule],
-      useFactory: async (configService: ConfigService) => ({
-        secret: configService.get('JWT_SECRET'),
-        signOptions: { expiresIn: '1d' },
-      }),
-      inject: [ConfigService],
-    }),
+    
 
-    StatisticModule
+    StatisticModule,
+
+    GamesModule
   ],
   controllers: [AppController],
   providers: [AppService, LootService],

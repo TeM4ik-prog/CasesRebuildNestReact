@@ -1,18 +1,18 @@
-import { useEffect, useState } from 'react'
-import { Navigate, Route, BrowserRouter as Router, Routes, useHref, useNavigate } from 'react-router-dom'
+import { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 import './App.scss'
 import { updateGradient } from './helper/changeBackgroundGredient.helper'
-import { useDispatch } from 'react-redux'
-import MainOpenPage from './pages/Main/mainOpenPage'
-import LoginPage from './pages/LoginPage/loginPage'
-import { AuthService } from './services/auth.service'
-import { login, logout, updateData } from './store/user/user.slice'
-import MiniGamesPage from './pages/MiniGames/MiniGamesPage/miniGamesPage';
-import StatisticPage from './pages/StatisticPage/StatisticPage';
-import ErrorPage from './pages/ErrorPage/errorPage';
-import InventoryPage from './pages/Inventory/InventoryPage';
 import EducationPage from './pages/EducationPage/EducationPage'
+import ErrorPage from './pages/ErrorPage/errorPage'
+import InventoryPage from './pages/Inventory/InventoryPage'
+import LoginPage from './pages/LoginPage/loginPage'
+import MainOpenPage from './pages/Main/mainOpenPage'
+import MiniGamesPage from './pages/MiniGames/miniGamesPage'
+import StatisticPage from './pages/StatisticPage/StatisticPage'
+import { AuthService } from './services/auth.service'
 import { useAuth, useUpdateDataTrigger } from './store/hooks/useAuth'
+import { login, logout } from './store/user/user.slice'
 
 
 function App() {
@@ -22,7 +22,6 @@ function App() {
 
   const checkAuth = async () => {
     console.log('Checking Auth Service...');
-    console.log(isAuth)
     // if(!isAuth && window.location.pathname != '/entry/login') {
     //   return window.location.href = '/entry/login'
     // }

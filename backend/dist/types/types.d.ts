@@ -12,3 +12,6 @@ export interface ILootWithSellData {
     sellAll: number;
     sellOne: number;
 }
+export interface IBoostName {
+    boostName: 'speed_boost' | 'time_boost' | 'money_boost' | 'focus_boost';
+}

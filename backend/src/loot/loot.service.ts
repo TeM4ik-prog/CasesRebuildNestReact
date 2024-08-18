@@ -7,6 +7,7 @@ import { lootChances, LootChances } from './box_config/loot_chance';
 import { RandElemFromAr, RandInt } from 'src/utils/functions.utils';
 import { ILootWithSellData, ISellData } from 'src/types/types';
 import { ReturnSellCoefficientByCategoryId } from './box_config/loot_sellConf';
+import { assert } from 'console';
 
 @Injectable()
 export class LootService {
@@ -171,9 +172,12 @@ export class LootService {
 
   async openBox(openPrice: number, userId: number): Promise<LootItem[]> {
     const itemsValue: number = 30
-    const user = await this.usersService.findOneById(userId)
 
-    if (user.money < openPrice) throw new BadRequestException('Not enough money')
+    const user = await this.usersService.findOneById(userId)
+    
+    let userMoney: number = user.money.toNumber()
+
+    if (userMoney < openPrice) throw new BadRequestException('Not enough money')
 
     const { common, uncommon, epic, legendary } = await this.getArLootByCategories()
     const resultLootBox = this.getRandomLoot({ common, uncommon, epic, legendary }, itemsValue)
